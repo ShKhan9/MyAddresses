@@ -170,7 +170,7 @@
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="vzj-L4-LN5"/>
                     </view>
-                    <tabBarItem key="tabBarItem" title="Search" id="sB0-5R-VDe"/>
+                    <tabBarItem key="tabBarItem" title="Search" image="search" selectedImage="search" id="sB0-5R-VDe"/>
                     <connections>
                         <outlet property="areaSettTable" destination="hto-dJ-AcV" id="OMm-F3-XEw"/>
                         <outlet property="cancelBu" destination="xI6-NP-o2A" id="1vn-zL-tfU"/>
@@ -211,7 +211,7 @@
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="tZf-vq-SJw"/>
                     </view>
-                    <tabBarItem key="tabBarItem" title="Addresses" id="yXO-Mj-Cr4"/>
+                    <tabBarItem key="tabBarItem" title="Addresses" image="addresses" selectedImage="addresses" id="yXO-Mj-Cr4"/>
                     <connections>
                         <outlet property="areaSettTable" destination="mny-oA-qoI" id="rB5-Jf-Omw"/>
                         <outlet property="noItemsLbl" destination="9QT-tY-AVF" id="o4a-VA-f1j"/>
@@ -243,7 +243,7 @@
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="Knb-4a-Sbl"/>
                     </view>
-                    <tabBarItem key="tabBarItem" title="Home" id="w5q-MJ-2gk"/>
+                    <tabBarItem key="tabBarItem" title="Home" image="home" selectedImage="home" id="w5q-MJ-2gk"/>
                     <connections>
                         <outlet property="mapView" destination="Ofn-Rz-3GJ" id="hUf-ef-zl4"/>
                     </connections>
@@ -273,8 +273,11 @@
         </scene>
     </scenes>
     <resources>
+        <image name="addresses" width="35" height="51"/>
         <image name="cancel_icon" width="41" height="43"/>
         <image name="google+" width="125" height="125"/>
+        <image name="home" width="40" height="40"/>
         <image name="loc" width="238" height="250"/>
+        <image name="search" width="40" height="40"/>
     </resources>
 </document>
