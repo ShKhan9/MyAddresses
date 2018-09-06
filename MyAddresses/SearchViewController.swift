@@ -16,7 +16,7 @@ class SearchViewController: UIViewController  , UITableViewDelegate , UITableVie
     @IBOutlet weak var textfield: UITextField!
     @IBOutlet weak var areaSettTable: UITableView!
     
-    var dataDef = [String]()
+    var dataDef = [SearItem]()
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -28,9 +28,7 @@ class SearchViewController: UIViewController  , UITableViewDelegate , UITableVie
         areaSettTable.delegate=self
         
         areaSettTable.dataSource=self
-        
-        // areaSettTable.backgroundColor = UIColor.red
-        
+     
         areaSettTable.bounces = false
         
         areaSettTable.separatorStyle = .none
@@ -76,7 +74,7 @@ class SearchViewController: UIViewController  , UITableViewDelegate , UITableVie
         
         cell.selectionStyle = UITableViewCellSelectionStyle.none
   
-        cell.searLbl.text = dataDef[indexPath.row]
+        cell.searLbl.text = dataDef[indexPath.row].text
          
         return cell
         
@@ -85,25 +83,21 @@ class SearchViewController: UIViewController  , UITableViewDelegate , UITableVie
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         
-        
+        GetPlaceDataByPlaceID(dataDef[indexPath.row].placeID)
     }
  
     func search(_ searchText: String){
-        
-        print(searchText)
-        
-        let placesClient = GMSPlacesClient()
+       
         let f = GMSAutocompleteFilter()
+        
         f.country = "eg"
+        
         placesClient.autocompleteQuery(searchText, bounds: nil, filter: f) { ( results , error) in
-         
-            print(error)
-            
+       
             if error != nil {
                 
                 return
             }
-            
             
             if searchText != self.textfield.text {
                 
@@ -114,11 +108,49 @@ class SearchViewController: UIViewController  , UITableViewDelegate , UITableVie
       
             for result in results!{
                
-                    self.dataDef.append(result.attributedFullText.string)
+                    self.dataDef.append(SearItem(placeID: result.placeID!, text: result.attributedFullText.string))
                
             }
             self.areaSettTable.reloadData()
         }
+    }
+    
+    let placesClient = GMSPlacesClient.shared()
+    
+    func GetPlaceDataByPlaceID(_ pPlaceID: String)
+    {
+        //  pPlaceID = "ChIJXbmAjccVrjsRlf31U1ZGpDM"
+        
+        Utilities.showHud2(vd: self.view)
+        
+        self.placesClient.lookUpPlaceID(pPlaceID, callback: { (place, error) -> Void in
+            
+            if let error = error {
+                print("lookup place id query error: \(error.localizedDescription)")
+                return
+            }
+            
+            if let place = place {
+         
+                print("\(place.coordinate.latitude)")
+                
+                print("\(place.coordinate.longitude)")
+                
+                Utilities.hideHud(vd: self.view)
+                
+                let home = self.tabBarController!.viewControllers![0] as! HomeViewController
+                
+                self.tabBarController?.selectedIndex = 0
+                
+                home.zoomTo(CLLocationCoordinate2D.init(latitude:place.coordinate.latitude, longitude:
+                    
+                place.coordinate.longitude))
+                
+                
+            } else {
+                print("No place details for \(pPlaceID)")
+            }
+        })
     }
     @IBAction func cancelClicked(_ sender: Any) {
         
@@ -147,4 +179,13 @@ class SearchViewController: UIViewController  , UITableViewDelegate , UITableVie
     }
     */
 
+}
+
+struct SearItem {
+    
+    var placeID:String
+    
+    var text:String
+    
+    
 }
